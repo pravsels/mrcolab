@@ -34,10 +34,16 @@ namespace Ubiq.Samples
         private Vector3 footPosition;
         private Quaternion torsoFacing;
 
+        private Vector3 scaleChange;
+        private bool change_scale;
+        private GameObject player;
+
         private void Awake()
         {
             avatar = GetComponent<Avatars.Avatar>();
             trackedAvatar = GetComponent<ThreePointTrackedAvatar>();
+            change_scale = true;
+            player = GameObject.FindGameObjectWithTag("Player");
         }
 
         private void OnEnable()
@@ -50,6 +56,8 @@ namespace Ubiq.Samples
             {
                 texturedAvatar.OnTextureChanged.AddListener(TexturedAvatar_OnTextureChanged);
             }
+
+            scaleChange = new Vector3(-0.01f, -0.01f, -0.01f);
         }
 
         private void OnDisable()
@@ -98,6 +106,20 @@ namespace Ubiq.Samples
             UpdateTorso();
 
             UpdateVisibility();
+
+            if (change_scale)
+            {
+                head.transform.localScale += scaleChange;
+                torso.transform.localScale += scaleChange;
+                leftHand.transform.localScale += scaleChange;
+                rightHand.transform.localScale += scaleChange;
+                player.transform.localScale += scaleChange;
+            }
+
+            if (head.transform.localScale.y < 0.1f)
+            {
+                change_scale = false;
+            }
         }
 
         private void UpdateVisibility()
