@@ -107,7 +107,7 @@ namespace Ubiq.Samples
 
             UpdateVisibility();
 
-            /*if (change_scale)
+            if (change_scale)
             {
                 head.transform.localScale += scaleChange;
                 torso.transform.localScale += scaleChange;
@@ -119,7 +119,7 @@ namespace Ubiq.Samples
             if (head.transform.localScale.y < 0.1f)
             {
                 change_scale = false;
-            }*/
+            }
         }
 
         private void UpdateVisibility()

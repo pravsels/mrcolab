@@ -1357,7 +1357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2867c250506c25c4cada3b457265e05c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  host: 192.168.1.7
+  host: 192.168.160.1
   port: 5900
   viewOnly: 0
   display: 0
@@ -7627,9 +7627,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1875451680}
   - component: {fileID: 1875451681}
-  - component: {fileID: 1875451684}
   - component: {fileID: 1875451683}
   - component: {fileID: 1875451682}
+  - component: {fileID: 1875451684}
   m_Layer: 0
   m_Name: Stream Camera
   m_TagString: Untagged
@@ -7747,7 +7747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64875cfea3598b9419edac2dbbce0413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  streamingSize: {x: 1280, y: 720}
+  streamingSize: {x: 640, y: 480}
   depth: 0
   antiAliasing: 1
 --- !u!1001 &1879299248
