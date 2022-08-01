@@ -1,5 +1,11 @@
 ﻿using Ubiq.Avatars;
 using UnityEngine;
+using UnityEngine.Networking;
+using System;
+using System.IO;
+using System.Net;
+using System.Threading;
+using System.Text;
 
 namespace Ubiq.Samples
 {
@@ -35,15 +41,57 @@ namespace Ubiq.Samples
         private Quaternion torsoFacing;
 
         private Vector3 scaleChange;
-        private bool change_scale;
+        private bool change_scale_min;
+        private bool change_scale_max;
         private GameObject player;
+
+        private HttpListener listener;
+        private Thread listener_thread;
 
         private void Awake()
         {
             avatar = GetComponent<Avatars.Avatar>();
             trackedAvatar = GetComponent<ThreePointTrackedAvatar>();
-            change_scale = true;
+            change_scale_min = false;
+            change_scale_max = false;
             player = GameObject.FindGameObjectWithTag("Player");
+
+            // set up HTTP listener on port 3000
+            listener = new HttpListener();
+            listener.Prefixes.Add("http://*:4444/");
+            listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
+            listener.Start();
+
+            listener_thread = new Thread(startListener);
+            listener_thread.Start();
+            Debug.Log("Server Started");
+        }
+
+        private void startListener()
+        {
+            while (true)
+            {
+                var result = listener.BeginGetContext(ListenerCallback, listener);
+                result.AsyncWaitHandle.WaitOne();
+            }
+        }
+
+        private void ListenerCallback(IAsyncResult result)
+        {
+            var context = listener.EndGetContext(result);
+
+            Debug.Log("Method: " + context.Request.HttpMethod);
+            Debug.Log("LocalUrl: " + context.Request.Url.LocalPath);
+
+            if (context.Request.Url.LocalPath == "/minimize")
+            {
+                change_scale_min = true; 
+            } else if (context.Request.Url.LocalPath == "/maximize")
+            {
+                change_scale_max = true; 
+            }
+            Update();
+            context.Response.Close();
         }
 
         private void OnEnable()
@@ -57,7 +105,7 @@ namespace Ubiq.Samples
                 texturedAvatar.OnTextureChanged.AddListener(TexturedAvatar_OnTextureChanged);
             }
 
-            scaleChange = new Vector3(-0.01f, -0.01f, -0.01f);
+            scaleChange = new Vector3(0.01f, 0.01f, 0.01f);
         }
 
         private void OnDisable()
@@ -107,18 +155,24 @@ namespace Ubiq.Samples
 
             UpdateVisibility();
 
-            if (change_scale)
+            if (change_scale_min || change_scale_max)
             {
-                head.transform.localScale += scaleChange;
-                torso.transform.localScale += scaleChange;
-                leftHand.transform.localScale += scaleChange;
-                rightHand.transform.localScale += scaleChange;
-                player.transform.localScale += scaleChange;
+                int multiplier = change_scale_max == true ? 1 : -1;
+
+                head.transform.localScale += multiplier*scaleChange;
+                torso.transform.localScale += multiplier*scaleChange;
+                leftHand.transform.localScale += multiplier*scaleChange;
+                rightHand.transform.localScale += multiplier*scaleChange;
+                player.transform.localScale += multiplier*scaleChange;
             }
 
             if (head.transform.localScale.y < 0.1f)
             {
-                change_scale = false;
+                change_scale_min = false;
+            }
+            if (head.transform.localScale.y > 1.7f)
+            {
+                change_scale_max = false;
             }
         }
 
