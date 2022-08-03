@@ -20,6 +20,7 @@ namespace Ubiq.Samples
         private NetworkedMainMenuIndicator uiIndicator;
         public SocialMenu socialMenu;
         public PosterController posterController;
+        private GameManager game_manager;
 
         // Start is called before the first frame update
         void Start()
@@ -27,6 +28,7 @@ namespace Ubiq.Samples
             scene = NetworkScene.FindNetworkScene(this);
             roomClient = scene.GetComponent<RoomClient>();
             avatarManager = scene.GetComponentInChildren<AvatarManager>();
+            game_manager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         }
 
         // Update is called once per frame
@@ -54,6 +56,8 @@ namespace Ubiq.Samples
         public void ShowPoster(string setName)
         {
             posterController.setPosterVisibility(setName);
+            game_manager.SendMessageUpdate();
+            game_manager.StartScenario();
         }
     }
 
@@ -63,7 +67,7 @@ namespace Ubiq.Samples
     public class ExperimentControlsEditor : Editor
     {
         bool avatarHidden = false;
-
+     
         public override void OnInspectorGUI()
         {
             var t = (ExperimenterControls)target;
