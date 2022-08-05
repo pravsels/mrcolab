@@ -56,7 +56,7 @@ namespace Ubiq.Samples
             change_scale_max = false;
             player = GameObject.FindGameObjectWithTag("Player");
 
-            // set up HTTP listener on port 3000
+            // set up HTTP listener on port 4444
             listener = new HttpListener();
             listener.Prefixes.Add("http://*:4444/");
             listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
