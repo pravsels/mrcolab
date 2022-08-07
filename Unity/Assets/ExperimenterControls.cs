@@ -56,8 +56,20 @@ namespace Ubiq.Samples
         public void ShowPoster(string setName)
         {
             posterController.setPosterVisibility(setName);
-            game_manager.SendMessageUpdate();
+            game_manager.SendMessageUpdate(true, false);    // start and pause 
             game_manager.StartScenario();
+        }
+
+        public void ResumeTimer()
+        {
+            game_manager.SendMessageUpdate(false, true);   // start and pause
+            game_manager.ResumeTimer();
+        }
+
+        public void PauseTimer()
+        {
+            game_manager.SendMessageUpdate(false, true);   // start and pause
+            game_manager.PauseTimer();
         }
     }
 
@@ -67,6 +79,7 @@ namespace Ubiq.Samples
     public class ExperimentControlsEditor : Editor
     {
         bool avatarHidden = false;
+        bool pauseTimer = false; 
      
         public override void OnInspectorGUI()
         {
@@ -85,6 +98,22 @@ namespace Ubiq.Samples
                     avatarHidden = !avatarHidden;
                     t.ShowHideAvatar(8);
                     Debug.Log(" Hide avatar");
+                }
+            }
+
+            if (GUILayout.Button(pauseTimer == true ? "Resume Timer" : "Pause Timer"))
+            {
+                if (pauseTimer) // resume timer
+                {
+                    pauseTimer = !pauseTimer;
+                    t.ResumeTimer();
+                    Debug.Log("Resume Timer");
+                }
+                else
+                {
+                    pauseTimer = !pauseTimer;
+                    t.PauseTimer();
+                    Debug.Log(" Pause Timer");
                 }
             }
 
