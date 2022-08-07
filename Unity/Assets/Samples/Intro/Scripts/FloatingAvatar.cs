@@ -56,14 +56,18 @@ namespace Ubiq.Samples
             change_scale_max = false;
             player = GameObject.FindGameObjectWithTag("Player");
 
-            // set up HTTP listener on port 4444
-            listener = new HttpListener();
-            listener.Prefixes.Add("http://*:4444/");
-            listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
-            listener.Start();
+            if (SystemInfo.deviceModel.ToLower().Contains("quest"))
+            {
+                // set up HTTP listener on port 4444
+                listener = new HttpListener();
+                listener.Prefixes.Add("http://*:4444/");
+                listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
+                listener.Start();
 
-            listener_thread = new Thread(startListener);
-            listener_thread.Start();
+                listener_thread = new Thread(startListener);
+                listener_thread.Start();
+            }
+
             Debug.Log("Server Started");
         }
 

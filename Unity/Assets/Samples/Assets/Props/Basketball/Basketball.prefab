@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 1356097210174926168}
   - component: {fileID: 1356097210174926169}
   - component: {fileID: 1356097210174926174}
-  - component: {fileID: 1356097210174926171}
-  - component: {fileID: 1356097210174926170}
   m_Layer: 0
   m_Name: Basketball
   m_TagString: Untagged
@@ -58,6 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -82,6 +81,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!135 &1356097210174926174
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -95,33 +95,3 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &1356097210174926171
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1356097210174926172}
-  serializedVersion: 2
-  m_Mass: 0.18
-  m_Drag: 0.05
-  m_AngularDrag: 0.01
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &1356097210174926170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1356097210174926172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1d120a6b1082f44eb2e3a46013a6fa0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  owner: 1
-  throwStrength: 2

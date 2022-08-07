@@ -25,6 +25,7 @@ public class UV_Light : MonoBehaviour, IGraspable
 
     void IGraspable.Grasp(Hand controller)
     {
+        Debug.Log("GRASPED!");
         StartCoroutine(Toggle(switch_url + "toggle"));
     }
 
