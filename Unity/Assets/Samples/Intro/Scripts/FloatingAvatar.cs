@@ -43,28 +43,48 @@ namespace Ubiq.Samples
         private Vector3 scaleChange;
         private bool change_scale_min;
         private bool change_scale_max;
+        private bool change_size_normal;
+        private bool is_abnormal_size;
         private GameObject player;
 
-        private HttpListener listener;
+        private HttpListener listener = null;
         private Thread listener_thread;
+        private float time_spent_abnormal;
+        private float abnormal_time_ = 15f;
+
+        private void Start()
+        {
+            change_scale_min = false;
+            change_scale_max = false;
+            change_size_normal = false;
+            is_abnormal_size = false;
+            time_spent_abnormal = abnormal_time_;
+
+            if (listener == null && SystemInfo.deviceModel.ToLower().Contains("quest"))
+            {
+                try
+                {
+                    // set up HTTP listener on port 4444
+                    listener = new HttpListener();
+                    listener.Prefixes.Add("http://*:4444/");
+                    listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
+                    listener.Start();
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e);
+                }
+
+                listener_thread = new Thread(startListener);
+                listener_thread.Start();
+            }
+        }
 
         private void Awake()
         {
             avatar = GetComponent<Avatars.Avatar>();
             trackedAvatar = GetComponent<ThreePointTrackedAvatar>();
-            change_scale_min = false;
-            change_scale_max = false;
             player = GameObject.FindGameObjectWithTag("Player");
-
-            // set up HTTP listener on port 3000
-            listener = new HttpListener();
-            listener.Prefixes.Add("http://*:4444/");
-            listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
-            listener.Start();
-
-            listener_thread = new Thread(startListener);
-            listener_thread.Start();
-            Debug.Log("Server Started");
         }
 
         private void startListener()
@@ -85,12 +105,12 @@ namespace Ubiq.Samples
 
             if (context.Request.Url.LocalPath == "/minimize")
             {
-                change_scale_min = true; 
-            } else if (context.Request.Url.LocalPath == "/maximize")
-            {
-                change_scale_max = true; 
+                change_scale_min = true;
             }
-            Update();
+            else if (context.Request.Url.LocalPath == "/maximize")
+            {
+                change_scale_max = true;
+            }
             context.Response.Close();
         }
 
@@ -155,16 +175,15 @@ namespace Ubiq.Samples
 
             UpdateVisibility();
 
-
             if (change_scale_min || change_scale_max)
             {
                 int multiplier = change_scale_max == true ? 1 : -1;
 
-                head.transform.localScale += multiplier*scaleChange;
-                torso.transform.localScale += multiplier*scaleChange;
-                leftHand.transform.localScale += multiplier*scaleChange;
-                rightHand.transform.localScale += multiplier*scaleChange;
-                player.transform.localScale += multiplier*scaleChange;
+                head.transform.localScale += multiplier * scaleChange;
+                torso.transform.localScale += multiplier * scaleChange;
+                leftHand.transform.localScale += multiplier * scaleChange;
+                rightHand.transform.localScale += multiplier * scaleChange;
+                player.transform.localScale += multiplier * scaleChange;
             }
 
             if (head.transform.localScale.y < 0.1f)
@@ -174,6 +193,45 @@ namespace Ubiq.Samples
             if (head.transform.localScale.y > 1.7f)
             {
                 change_scale_max = false;
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if (change_scale_max || change_scale_min)
+            {
+                is_abnormal_size = true;
+            }
+
+            if (is_abnormal_size)
+            {
+                time_spent_abnormal -= Time.fixedDeltaTime;
+
+                if (time_spent_abnormal < 0f)
+                {
+                    is_abnormal_size = false;
+                    time_spent_abnormal = abnormal_time_;
+                    change_size_normal = true;
+                }
+            }
+
+            if (change_size_normal)
+            {
+                float size_diff = 1f - head.transform.localScale.y;
+                int multiplier = size_diff < 0f ? -1 : 1;
+                head.transform.localScale += multiplier * scaleChange;
+                torso.transform.localScale += multiplier * scaleChange;
+                leftHand.transform.localScale += multiplier * scaleChange;
+                rightHand.transform.localScale += multiplier * scaleChange;
+                player.transform.localScale += multiplier * scaleChange;
+            }
+
+            if (change_size_normal)
+            {
+                if (Math.Abs(1f - head.transform.localScale.y) <= 0.02f)
+                {
+                    change_size_normal = false;
+                }
             }
         }
 

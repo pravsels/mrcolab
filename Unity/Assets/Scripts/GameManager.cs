@@ -12,10 +12,11 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
     // Message sent to everyone to start the game
     struct Message
     {
-        public bool start;
-        public Message(bool start)
+        public bool start, paused;
+        public Message(bool start, bool paused)
         {
             this.start = start;
+            this.paused = paused;
         }
     }
 
@@ -28,7 +29,7 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void StartScenario()
@@ -36,12 +37,23 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
         Timer.ResetTimer();
     }
 
-    // Send start game message
-    public void SendMessageUpdate()
+    public void PauseTimer()
     {
-        Message startMessage = new Message();
-        startMessage.start = true;
-        context.SendJson(startMessage);
+        Timer.paused = true;
+    }
+
+    public void ResumeTimer()
+    {
+        Timer.paused = false;
+    }
+
+    // Send start game message
+    public void SendMessageUpdate(bool start, bool paused)
+    {
+        Message msg = new Message();
+        msg.start = start;
+        msg.paused = paused;
+        context.SendJson(msg);
     }
 
     // Receive message that start the game
@@ -50,5 +62,9 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
         var msg = message.FromJson<Message>();
         if (msg.start == true)
             StartScenario();
+        if (msg.paused == true)
+            PauseTimer();
+        if (msg.paused == false)
+            ResumeTimer();
     }
 }

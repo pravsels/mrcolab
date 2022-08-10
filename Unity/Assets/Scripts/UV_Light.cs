@@ -1,4 +1,4 @@
-using System; 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Ubiq.XR;
@@ -8,9 +8,9 @@ using UnityEngine.Networking;
 public class UV_Light : MonoBehaviour, IGraspable
 {
     public Light pointlight;
-    private bool is_switched = false;
-    private float update_frequency = .3f;
-    private string switch_url = "http://127.0.0.1:5000/";
+    public bool is_switched = false;
+    public float update_frequency = .3f;
+    public string switch_url = "http://127.0.0.1:5000/";
 
     struct StatusReponse
     {
@@ -25,6 +25,7 @@ public class UV_Light : MonoBehaviour, IGraspable
 
     void IGraspable.Grasp(Hand controller)
     {
+        Debug.Log("GRASPED!");
         StartCoroutine(Toggle(switch_url + "toggle"));
     }
 
@@ -55,7 +56,8 @@ public class UV_Light : MonoBehaviour, IGraspable
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
                 Debug.Log(webRequest.error);
-            } else if (webRequest.result == UnityWebRequest.Result.Success)
+            }
+            else if (webRequest.result == UnityWebRequest.Result.Success)
             {
                 StatusReponse response = JsonUtility.FromJson<StatusReponse>(webRequest.downloadHandler.text);
 
@@ -67,7 +69,6 @@ public class UV_Light : MonoBehaviour, IGraspable
                 {
                     is_switched = false;
                 }
-                switch_update();
             }
         }
     }
@@ -76,10 +77,11 @@ public class UV_Light : MonoBehaviour, IGraspable
     void StatusUpdate()
     {
         StartCoroutine(GetStatus(switch_url + "status"));
+        switch_update();
     }
 
     void IGraspable.Release(Hand controller)
     {
-        
+
     }
 }
