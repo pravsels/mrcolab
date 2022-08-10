@@ -61,10 +61,7 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
     {
         var msg = message.FromJson<Message>();
         if (msg.start == true)
-        {
             StartScenario();
-            return; 
-        }
         if (msg.paused == true)
             PauseTimer();
         if (msg.paused == false)

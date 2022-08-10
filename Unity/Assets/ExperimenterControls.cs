@@ -56,13 +56,18 @@ namespace Ubiq.Samples
         public void ShowPoster(string setName)
         {
             posterController.setPosterVisibility(setName);
-            game_manager.SendMessageUpdate(true, false);    // start and pause 
+        }
+
+        public void ResetTimer()
+        {
+            game_manager.SendMessageUpdate(true, false);    // start and resume 
             game_manager.StartScenario();
+            Timer.paused = false; 
         }
 
         public void ResumeTimer()
         {
-            game_manager.SendMessageUpdate(false, true);   // start and pause
+            game_manager.SendMessageUpdate(false, false);   // start and resume
             game_manager.ResumeTimer();
         }
 
@@ -113,8 +118,14 @@ namespace Ubiq.Samples
                 {
                     pauseTimer = !pauseTimer;
                     t.PauseTimer();
-                    Debug.Log(" Pause Timer");
+                    Debug.Log("Pause Timer");
                 }
+            }
+
+            if (GUILayout.Button("Start/Reset Scenario"))
+            {
+                t.ResetTimer();
+                Debug.Log("Start Scenaior");
             }
 
             if (GUILayout.Button("Show poster set A"))

@@ -1176,7 +1176,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 254502815}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0042, y: 0.0001, z: 0.012}
+  m_LocalPosition: {x: 0.0006, y: 0.0001, z: -0.0144}
   m_LocalScale: {x: 33.33334, y: 33.33334, z: 33.33334}
   m_Children: []
   m_Father: {fileID: 1784487633}
@@ -1538,7 +1538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2867c250506c25c4cada3b457265e05c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  host: 192.168.160.1
+  host: 192.168.1.7
   port: 5900
   viewOnly: 1
   display: 0
@@ -9136,8 +9136,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1875451680}
   - component: {fileID: 1875451681}
-  - component: {fileID: 1875451683}
   - component: {fileID: 1875451682}
+  - component: {fileID: 1875451683}
   - component: {fileID: 1875451684}
   m_Layer: 0
   m_Name: Stream Camera
@@ -9217,7 +9217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 045786cf504bd7347842d6948241cbd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  urlSignaling: ws://localhost
+  urlSignaling: ws://192.168.1.7
   signalingType: Unity.RenderStreaming.Signaling.WebSocketSignaling
   iceServers:
   - credential: 
@@ -10060,7 +10060,7 @@ GameObject:
   - component: {fileID: 1946895524}
   m_Layer: 0
   m_Name: Cursor
-  m_TagString: Untagged
+  m_TagString: Pointer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10135,7 +10135,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1946895523}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.473}
+  m_LocalPosition: {x: 1.045, y: 0.757, z: -1.096}
   m_LocalScale: {x: 0.12533791, y: 0.12533791, z: 0.12533791}
   m_Children: []
   m_Father: {fileID: 0}

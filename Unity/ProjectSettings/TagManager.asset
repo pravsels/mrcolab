@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Teleport
   - Ground
+  - Pointer
   layers:
   - Default
   - TransparentFX
