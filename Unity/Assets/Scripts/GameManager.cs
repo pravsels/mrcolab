@@ -12,11 +12,12 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
     // Message sent to everyone to start the game
     struct Message
     {
-        public bool start, paused;
-        public Message(bool start, bool paused)
+        public bool? start, paused, hide_blocks;     // nullable bool 
+        public Message(bool? start, bool? paused, bool? hide_blocks)
         {
             this.start = start;
             this.paused = paused;
+            this.hide_blocks = hide_blocks;
         }
     }
 
@@ -29,7 +30,7 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void StartScenario()
@@ -44,15 +45,26 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
 
     public void ResumeTimer()
     {
-        Timer.paused = false; 
+        Timer.paused = false;
+    }
+
+    public void SetLayerOfBlocks(int layer)
+    {
+        GameObject world_blocks = GameObject.FindGameObjectWithTag("Manipulation");
+        if (world_blocks != null)
+        {
+            ObjectHider blocksHider = world_blocks.GetComponent<ObjectHider>();
+            if (blocksHider != null)
+            {
+                blocksHider.SetLayer(layer);
+            }
+        }
     }
 
     // Send start game message
-    public void SendMessageUpdate(bool start, bool paused)
+    public void SendMessageUpdate(bool? start, bool? paused, bool? hide_blocks)
     {
-        Message msg = new Message();
-        msg.start = start;
-        msg.paused = paused; 
+        Message msg = new Message(start, paused, hide_blocks);
         context.SendJson(msg);
     }
 
@@ -62,9 +74,19 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
         var msg = message.FromJson<Message>();
         if (msg.start == true)
             StartScenario();
+
         if (msg.paused == true)
             PauseTimer();
-        if (msg.paused == false)
+        else if (msg.paused == false)
             ResumeTimer();
+
+        if (msg.hide_blocks == true)
+        {
+            SetLayerOfBlocks(8);
+        }
+        else if (msg.hide_blocks == false)
+        {
+            SetLayerOfBlocks(0);
+        }
     }
 }

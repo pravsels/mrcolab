@@ -45,7 +45,7 @@ namespace Ubiq.Samples
                 // if not in a room use this
                 avatarHider = avatarManager.LocalAvatar.gameObject.GetComponent<ObjectHider>();
                 avatarHider.SetLayer(layer);
-                if (uiIndicator != null)// uiIndicator is of type NetworkedMainMenuIndicator and is the indicator of the local menu that would be sent to remote peers
+                if (uiIndicator != null) // uiIndicator is of type NetworkedMainMenuIndicator and is the indicator of the local menu that would be sent to remote peers
                 {
                     // menuHider is the ObjectHider from the menu indicator
                     menuHider.SetNetworkedObjectLayer(layer);
@@ -60,21 +60,33 @@ namespace Ubiq.Samples
 
         public void ResetTimer()
         {
-            game_manager.SendMessageUpdate(true, false);    // start and resume 
+            game_manager.SendMessageUpdate(true, null, null);    // start and resume 
             game_manager.StartScenario();
-            Timer.paused = false; 
+            Timer.paused = false;
         }
 
         public void ResumeTimer()
         {
-            game_manager.SendMessageUpdate(false, false);   // start and resume
+            game_manager.SendMessageUpdate(null, false, null);   // start and resume
             game_manager.ResumeTimer();
         }
 
         public void PauseTimer()
         {
-            game_manager.SendMessageUpdate(false, true);   // start and pause
+            game_manager.SendMessageUpdate(null, true, null);   // start and pause
             game_manager.PauseTimer();
+        }
+
+        public void HideBlocks()
+        {
+            game_manager.SendMessageUpdate(null, null, true);
+            game_manager.SetLayerOfBlocks(8);
+        }
+
+        public void ShowBlocks()
+        {
+            game_manager.SendMessageUpdate(null, null, false);
+            game_manager.SetLayerOfBlocks(0);
         }
     }
 
@@ -84,8 +96,9 @@ namespace Ubiq.Samples
     public class ExperimentControlsEditor : Editor
     {
         bool avatarHidden = false;
-        bool pauseTimer = false; 
-     
+        bool pauseTimer = false;
+        bool hideBlocks = false;
+
         public override void OnInspectorGUI()
         {
             var t = (ExperimenterControls)target;
@@ -103,6 +116,22 @@ namespace Ubiq.Samples
                     avatarHidden = !avatarHidden;
                     t.ShowHideAvatar(8);
                     Debug.Log(" Hide avatar");
+                }
+            }
+
+            if (GUILayout.Button(hideBlocks == false ? "Hide Blocks" : "Show Blocks"))
+            {
+                if (hideBlocks == false) // show blocks 
+                {
+                    hideBlocks = !hideBlocks;
+                    t.ShowBlocks();
+                    Debug.Log("Show Blocks!");
+                }
+                else
+                {
+                    hideBlocks = !hideBlocks;
+                    t.HideBlocks();
+                    Debug.Log("Hide Blocks");
                 }
             }
 
