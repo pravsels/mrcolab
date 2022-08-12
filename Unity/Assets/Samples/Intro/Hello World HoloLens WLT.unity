@@ -4376,6 +4376,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 857793633985761453, guid: dca3298a254629246b59cabba33566e4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 906971120979916468, guid: dca3298a254629246b59cabba33566e4,
         type: 3}
       propertyPath: m_IsActive
@@ -4384,17 +4389,17 @@ PrefabInstance:
     - target: {fileID: 1202604634516590664, guid: dca3298a254629246b59cabba33566e4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -106.6
+      value: -120.7
       objectReference: {fileID: 0}
     - target: {fileID: 1202604634516590664, guid: dca3298a254629246b59cabba33566e4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 220.5
+      value: 208.2
       objectReference: {fileID: 0}
     - target: {fileID: 1202604634516590664, guid: dca3298a254629246b59cabba33566e4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -197
+      value: -193.3
       objectReference: {fileID: 0}
     - target: {fileID: 1202604634516590664, guid: dca3298a254629246b59cabba33566e4,
         type: 3}
@@ -4430,6 +4435,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Posters
+      objectReference: {fileID: 0}
+    - target: {fileID: 2219901300974172207, guid: dca3298a254629246b59cabba33566e4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2338423904181611921, guid: dca3298a254629246b59cabba33566e4,
         type: 3}
@@ -6235,12 +6245,27 @@ PrefabInstance:
     - target: {fileID: 3093870173363184312, guid: 00128d45c654a50439ae4bffc41f30ef,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3598199046249022317, guid: 00128d45c654a50439ae4bffc41f30ef,
         type: 3}
       propertyPath: m_Name
       value: Office
+      objectReference: {fileID: 0}
+    - target: {fileID: 3598199046249022317, guid: 00128d45c654a50439ae4bffc41f30ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821258825684702533, guid: 00128d45c654a50439ae4bffc41f30ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4155843295427057347, guid: 00128d45c654a50439ae4bffc41f30ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4172626560818781079, guid: 00128d45c654a50439ae4bffc41f30ef,
         type: 3}
@@ -9085,7 +9110,7 @@ GameObject:
   - component: {fileID: 1776569654}
   m_Layer: 0
   m_Name: Manipulation
-  m_TagString: Untagged
+  m_TagString: Manipulation
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
