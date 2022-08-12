@@ -50,7 +50,9 @@ namespace Ubiq.Samples
         private HttpListener listener = null;
         private Thread listener_thread;
         private float time_spent_abnormal;
-        private float abnormal_time_ = 15f;
+        private float abnormal_time_ = 10f;
+        private float avatar_min_size = 0.1f;
+        private float avatar_max_size = 3f;
 
         private void Start()
         {
@@ -185,11 +187,11 @@ namespace Ubiq.Samples
                 player.transform.localScale += multiplier*scaleChange;
             }
 
-            if (head.transform.localScale.y < 0.1f)
+            if (head.transform.localScale.y < avatar_min_size)
             {
                 change_scale_min = false;
             }
-            if (head.transform.localScale.y > 1.7f)
+            if (head.transform.localScale.y > avatar_max_size)
             {
                 change_scale_max = false;
             }

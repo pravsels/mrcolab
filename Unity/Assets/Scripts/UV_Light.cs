@@ -9,7 +9,7 @@ public class UV_Light : MonoBehaviour, IGraspable
 {
     public Light pointlight;
     public bool is_switched = false;
-    public float update_frequency = .3f;
+    public float update_frequency = .1f;
     public string switch_url = "http://127.0.0.1:5000/";
 
     struct StatusReponse
@@ -81,6 +81,7 @@ public class UV_Light : MonoBehaviour, IGraspable
 
     void IGraspable.Release(Hand controller)
     {
-        
+        Debug.Log("UNGRASPED!");
+        StartCoroutine(Toggle(switch_url + "toggle"));
     }
 }
