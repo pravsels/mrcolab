@@ -12,12 +12,13 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
     // Message sent to everyone to start the game
     struct Message
     {
-        public bool? start, paused, hide_blocks;     // nullable bool 
-        public Message(bool? start, bool? paused, bool? hide_blocks)
+        public bool? start, paused, hide_blocks, shelf_light;     // nullable bool 
+        public Message(bool? start, bool? paused, bool? hide_blocks, bool? shelf_light)
         {
             this.start = start;
             this.paused = paused;
             this.hide_blocks = hide_blocks;
+            this.shelf_light = shelf_light;
         }
     }
 
@@ -48,6 +49,15 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
         Timer.paused = false;
     }
 
+    public void SetShelfLight(bool toggle)
+    {
+        GameObject shelfLight = GameObject.Find("Shelf Light");
+        if (shelfLight != null)
+        {
+            shelfLight.GetComponent<GlowingLight>().enabled = toggle;
+        }
+    }
+
     public void SetLayerOfBlocks(int layer)
     {
         GameObject world_blocks = GameObject.FindGameObjectWithTag("Manipulation");
@@ -62,9 +72,9 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
     }
 
     // Send start game message
-    public void SendMessageUpdate(bool? start, bool? paused, bool? hide_blocks)
+    public void SendMessageUpdate(bool? start, bool? paused, bool? hide_blocks, bool? shelf_light)
     {
-        Message msg = new Message(start, paused, hide_blocks);
+        Message msg = new Message(start, paused, hide_blocks, shelf_light);
         context.SendJson(msg);
     }
 
@@ -87,6 +97,14 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
         else if (msg.hide_blocks == false)
         {
             SetLayerOfBlocks(0);
+        }
+
+        if (msg.shelf_light == true)    // switch on the shelf light
+        {
+            SetShelfLight(true);
+        } else if (msg.shelf_light == false)
+        {
+            SetShelfLight(false);
         }
     }
 }

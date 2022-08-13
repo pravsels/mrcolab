@@ -31,12 +31,6 @@ namespace Ubiq.Samples
             game_manager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         public void ShowHideAvatar(int layer)
         {
             if (avatarManager.LocalAvatar != null)
@@ -60,33 +54,34 @@ namespace Ubiq.Samples
 
         public void ResetTimer()
         {
-            game_manager.SendMessageUpdate(true, null, null);    // start and resume 
+            game_manager.SendMessageUpdate(true, null, null, null);    // start 
             game_manager.StartScenario();
             Timer.paused = false;
         }
 
         public void ResumeTimer()
         {
-            game_manager.SendMessageUpdate(null, false, null);   // start and resume
+            game_manager.SendMessageUpdate(null, false, null, null);   // resume
             game_manager.ResumeTimer();
         }
 
         public void PauseTimer()
         {
-            game_manager.SendMessageUpdate(null, true, null);   // start and pause
+            game_manager.SendMessageUpdate(null, true, null, null);   // pause
             game_manager.PauseTimer();
         }
 
-        public void HideBlocks()
+
+        public void SetBlocks(bool hide_blocks, int layer)
         {
-            game_manager.SendMessageUpdate(null, null, true);
-            game_manager.SetLayerOfBlocks(8);
+            game_manager.SendMessageUpdate(null, null, hide_blocks, null);
+            game_manager.SetLayerOfBlocks(layer);
         }
 
-        public void ShowBlocks()
+        public void SetShelfLight(bool shelf_light)
         {
-            game_manager.SendMessageUpdate(null, null, false);
-            game_manager.SetLayerOfBlocks(0);
+            game_manager.SendMessageUpdate(null, null, null, shelf_light);
+            game_manager.SetShelfLight(shelf_light); 
         }
     }
 
@@ -98,6 +93,7 @@ namespace Ubiq.Samples
         bool avatarHidden = false;
         bool pauseTimer = false;
         bool hideBlocks = false;
+        bool shelfLight = false; 
 
         public override void OnInspectorGUI()
         {
@@ -115,24 +111,30 @@ namespace Ubiq.Samples
                 {
                     avatarHidden = !avatarHidden;
                     t.ShowHideAvatar(8);
-                    Debug.Log(" Hide avatar");
+                    Debug.Log("Hide avatar");
                 }
             }
 
             if (GUILayout.Button(hideBlocks == false ? "Hide Blocks" : "Show Blocks"))
             {
-                if (hideBlocks == false) // show blocks 
+                if (hideBlocks) // show blocks 
                 {
                     hideBlocks = !hideBlocks;
-                    t.ShowBlocks();
+                    t.SetBlocks(hideBlocks, 0);
                     Debug.Log("Show Blocks!");
                 }
                 else
                 {
                     hideBlocks = !hideBlocks;
-                    t.HideBlocks();
+                    t.SetBlocks(hideBlocks, 8);
                     Debug.Log("Hide Blocks");
                 }
+            }
+
+            if (GUILayout.Button("Start/Reset Scenario"))
+            {
+                t.ResetTimer();
+                Debug.Log("Start Scenaiorio");
             }
 
             if (GUILayout.Button(pauseTimer == true ? "Resume Timer" : "Pause Timer"))
@@ -151,20 +153,30 @@ namespace Ubiq.Samples
                 }
             }
 
-            if (GUILayout.Button("Start/Reset Scenario"))
-            {
-                t.ResetTimer();
-                Debug.Log("Start Scenaior");
-            }
-
-            if (GUILayout.Button("Show poster set A"))
+            if (GUILayout.Button("Show clue A"))
             {
                 t.ShowPoster("SetA");
             }
 
-            if (GUILayout.Button("Show poster set B"))
+            if (GUILayout.Button("Show clue B"))
             {
                 t.ShowPoster("SetB");
+            }
+
+            if (GUILayout.Button(shelfLight == false ? "Shelf Light On" : "Shelf Light Off"))
+            {
+                if (shelfLight == false) // turn light on when it is off  
+                {
+                    shelfLight = !shelfLight;
+                    t.SetShelfLight(shelfLight);
+                    Debug.Log("Shelf Light On!");
+                }
+                else
+                {
+                    shelfLight = !shelfLight;
+                    t.SetShelfLight(shelfLight);
+                    Debug.Log("Shelf Light On!");
+                }
             }
         }
     }

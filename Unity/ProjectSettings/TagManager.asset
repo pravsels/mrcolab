@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Teleport
   - Ground
-  - Pointer
   - Manipulation
   layers:
   - Default
