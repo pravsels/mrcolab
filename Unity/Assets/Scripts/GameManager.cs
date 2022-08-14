@@ -63,9 +63,11 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
         GameObject world_blocks = GameObject.FindGameObjectWithTag("Manipulation");
         if (world_blocks != null)
         {
-            ObjectHider blocksHider = world_blocks.GetComponent<ObjectHider>();
+            BlocksHider blocksHider = world_blocks.GetComponent<BlocksHider>();
+            Debug.Log("blocks hider : ", blocksHider);
             if (blocksHider != null)
             {
+                Debug.Log("blocks hider not null!");
                 blocksHider.SetLayer(layer);
             }
         }
