@@ -78,10 +78,10 @@ namespace Ubiq.Samples
             game_manager.SetLayerOfBlocks(layer);
         }
 
-        public void SetShelfLight(bool shelf_light)
+        public void SetShelfLight()
         {
-            game_manager.SendMessageUpdate(null, null, null, shelf_light);
-            game_manager.SetShelfLight(shelf_light); 
+            game_manager.SendMessageUpdate(null, null, null, true);
+            game_manager.SetShelfLight(); 
         }
     }
 
@@ -93,7 +93,6 @@ namespace Ubiq.Samples
         bool avatarHidden = false;
         bool pauseTimer = false;
         bool hideBlocks = false;
-        bool shelfLight = false; 
 
         public override void OnInspectorGUI()
         {
@@ -163,20 +162,10 @@ namespace Ubiq.Samples
                 t.ShowPoster("SetB");
             }
 
-            if (GUILayout.Button(shelfLight == false ? "Shelf Light On" : "Shelf Light Off"))
+            if (GUILayout.Button("Shelf Light On"))
             {
-                if (shelfLight == false) // turn light on when it is off  
-                {
-                    shelfLight = !shelfLight;
-                    t.SetShelfLight(shelfLight);
-                    Debug.Log("Shelf Light On!");
-                }
-                else
-                {
-                    shelfLight = !shelfLight;
-                    t.SetShelfLight(shelfLight);
-                    Debug.Log("Shelf Light On!");
-                }
+                t.SetShelfLight();
+                Debug.Log("Shelf Light On!");
             }
         }
     }

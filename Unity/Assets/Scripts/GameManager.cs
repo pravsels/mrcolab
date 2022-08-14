@@ -49,12 +49,12 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
         Timer.paused = false;
     }
 
-    public void SetShelfLight(bool toggle)
+    public void SetShelfLight()
     {
         GameObject shelfLight = GameObject.Find("Shelf Light");
         if (shelfLight != null)
         {
-            shelfLight.GetComponent<GlowingLight>().enabled = toggle;
+            shelfLight.GetComponent<GlowingLight>().enabled = true;
         }
     }
 
@@ -83,12 +83,17 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
     {
         var msg = message.FromJson<Message>();
         if (msg.start == true)
+        {
             StartScenario();
+        }
 
         if (msg.paused == true)
+        {
             PauseTimer();
-        else if (msg.paused == false)
+        } else if (msg.paused == false)
+        {
             ResumeTimer();
+        }
 
         if (msg.hide_blocks == true)
         {
@@ -101,11 +106,7 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
 
         if (msg.shelf_light == true)    // switch on the shelf light
         {
-            SetShelfLight(true);
-        }
-        else if (msg.shelf_light == false)
-        {
-            SetShelfLight(false);
+            SetShelfLight();
         }
     }
 }
