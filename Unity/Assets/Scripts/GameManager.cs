@@ -64,10 +64,8 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
         if (world_blocks != null)
         {
             BlocksHider blocksHider = world_blocks.GetComponent<BlocksHider>();
-            Debug.Log("blocks hider : ", blocksHider);
             if (blocksHider != null)
             {
-                Debug.Log("blocks hider not null!");
                 blocksHider.SetLayer(layer);
             }
         }
