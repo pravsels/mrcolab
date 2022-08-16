@@ -12,13 +12,10 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
     // Message sent to everyone to start the game
     struct Message
     {
-        public bool? start, paused, hide_blocks, shelf_light;     // nullable bool 
-        public Message(bool? start, bool? paused, bool? hide_blocks, bool? shelf_light)
+        public int layer;     // nullable bool 
+        public Message(int layer)
         {
-            this.start = start;
-            this.paused = paused;
-            this.hide_blocks = hide_blocks;
-            this.shelf_light = shelf_light;
+            this.layer = layer;
         }
     }
 
@@ -28,53 +25,26 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
         context = NetworkScene.Register(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetBlocksLayer(int layer)
     {
+        GameObject blocks = GameObject.Find("Manipulation");
 
-    }
-
-    public void StartScenario()
-    {
-        Timer.ResetTimer();
-    }
-
-    public void PauseTimer()
-    {
-        Timer.paused = true;
-    }
-
-    public void ResumeTimer()
-    {
-        Timer.paused = false;
-    }
-
-    public void SetShelfLight()
-    {
-        GameObject shelfLight = GameObject.Find("Shelf Light");
-        if (shelfLight != null)
+        if (blocks != null)
         {
-            shelfLight.GetComponent<GlowingLight>().enabled = true;
-        }
-    }
-
-    public void SetLayerOfBlocks(int layer)
-    {
-        GameObject world_blocks = GameObject.FindGameObjectWithTag("Manipulation");
-        if (world_blocks != null)
-        {
-            BlocksHider blocksHider = world_blocks.GetComponent<BlocksHider>();
-            if (blocksHider != null)
+            BlocksHider hider = GetComponent<BlocksHider>();
+            if (hider != null)
             {
-                blocksHider.SetLayer(layer);
+                hider.SetLayer(layer);
             }
         }
+
+        SendMessageUpdate(layer);
     }
 
     // Send start game message
-    public void SendMessageUpdate(bool? start, bool? paused, bool? hide_blocks, bool? shelf_light)
+    public void SendMessageUpdate(int layer)
     {
-        Message msg = new Message(start, paused, hide_blocks, shelf_light);
+        Message msg = new Message(layer);
         context.SendJson(msg);
     }
 
@@ -82,31 +52,15 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();
-        if (msg.start == true)
-        {
-            StartScenario();
-        }
+        GameObject blocks = GameObject.Find("Manipulation");
 
-        if (msg.paused == true)
+        if (blocks != null)
         {
-            PauseTimer();
-        } else if (msg.paused == false)
-        {
-            ResumeTimer();
-        }
-
-        if (msg.hide_blocks == true)
-        {
-            SetLayerOfBlocks(8);
-        }
-        else if (msg.hide_blocks == false)
-        {
-            SetLayerOfBlocks(0);
-        }
-
-        if (msg.shelf_light == true)    // switch on the shelf light
-        {
-            SetShelfLight();
+            BlocksHider hider = GetComponent<BlocksHider>();
+            if (hider != null)
+            {
+                hider.SetLayer(msg.layer);
+            }
         }
     }
 }

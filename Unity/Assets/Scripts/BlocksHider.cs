@@ -29,7 +29,7 @@ public class BlocksHider : MonoBehaviour
         var previousLayer = currentLayer;
         currentLayer = layer;
         this.gameObject.layer = layer;
-
+        
         foreach (var child in childTransforms)
         {
             child.gameObject.layer = layer;
