@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
 
         if (blocks != null)
         {
-            BlocksHider hider = GetComponent<BlocksHider>();
+            BlocksHider hider = blocks.GetComponent<BlocksHider>();
             if (hider != null)
             {
                 hider.SetLayer(layer);
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour, INetworkComponent, INetworkObject
 
         if (blocks != null)
         {
-            BlocksHider hider = GetComponent<BlocksHider>();
+            BlocksHider hider = blocks.GetComponent<BlocksHider>();
             if (hider != null)
             {
                 hider.SetLayer(msg.layer);

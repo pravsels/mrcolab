@@ -20,7 +20,6 @@ namespace Ubiq.Samples
         private NetworkedMainMenuIndicator uiIndicator;
         public SocialMenu socialMenu;
         public PosterController posterController;
-        public BlocksController blocksController;
         public ShelfLightController shelfLightController;
         private GameManager game_manager;
 
@@ -56,17 +55,17 @@ namespace Ubiq.Samples
 
         public void ResetTimer()
         {
-            
+
         }
 
         public void ResumeTimer()
         {
-            
+
         }
 
         public void PauseTimer()
         {
-            
+
         }
 
         public void SetBlocks(int layer)
@@ -76,7 +75,8 @@ namespace Ubiq.Samples
 
         public void SetShelfLight(bool shelf_light)
         {
-            shelfLightController.setShelfLight(shelf_light);
+            if (shelfLightController != null)
+                shelfLightController.setShelfLight(shelf_light);
         }
     }
 
@@ -88,7 +88,7 @@ namespace Ubiq.Samples
         bool avatarHidden = false;
         bool pauseTimer = false;
         bool hideBlocks = false;
-        bool shelfLight = false; 
+        bool shelfLight = false;
 
         public override void OnInspectorGUI()
         {

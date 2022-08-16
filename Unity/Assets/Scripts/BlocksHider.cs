@@ -29,10 +29,16 @@ public class BlocksHider : MonoBehaviour
         var previousLayer = currentLayer;
         currentLayer = layer;
         this.gameObject.layer = layer;
-        
+
         foreach (var child in childTransforms)
         {
             child.gameObject.layer = layer;
+        }
+        GameObject rigroot = GameObject.Find("rigRoot");
+        while (rigroot != null)
+        {
+            rigroot.SetActive(layer == 0 ? true : false);
+            rigroot = GameObject.Find("rigRoot");
         }
         // don't set this every frame if nothing changed
         if (previousLayer != layer)
