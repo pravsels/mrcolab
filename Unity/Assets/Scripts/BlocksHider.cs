@@ -34,6 +34,12 @@ public class BlocksHider : MonoBehaviour
         {
             child.gameObject.layer = layer;
         }
+        GameObject rigroot = GameObject.Find("rigRoot");
+        while (rigroot != null)
+        {
+            rigroot.SetActive(layer == 0 ? true : false);
+            rigroot = GameObject.Find("rigRoot");
+        }
         // don't set this every frame if nothing changed
         if (previousLayer != layer)
         {

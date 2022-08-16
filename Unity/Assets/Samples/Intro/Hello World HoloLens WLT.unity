@@ -2752,6 +2752,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   socialMenu: {fileID: 1879299250}
   posterController: {fileID: 640478696}
+  shelfLightController: {fileID: 0}
 --- !u!4 &674075552
 Transform:
   m_ObjectHideFlags: 0
@@ -9121,7 +9122,7 @@ GameObject:
   - component: {fileID: 1776569655}
   m_Layer: 0
   m_Name: Manipulation
-  m_TagString: Manipulation
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

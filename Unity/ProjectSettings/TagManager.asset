@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Teleport
   - Ground
-  - Manipulation
+  - rigroot
   layers:
   - Default
   - TransparentFX

@@ -20,6 +20,7 @@ namespace Ubiq.Samples
         private NetworkedMainMenuIndicator uiIndicator;
         public SocialMenu socialMenu;
         public PosterController posterController;
+        public ShelfLightController shelfLightController;
         private GameManager game_manager;
 
         // Start is called before the first frame update
@@ -54,34 +55,28 @@ namespace Ubiq.Samples
 
         public void ResetTimer()
         {
-            game_manager.SendMessageUpdate(true, null, null, null);    // start 
-            game_manager.StartScenario();
-            Timer.paused = false;
+
         }
 
         public void ResumeTimer()
         {
-            game_manager.SendMessageUpdate(null, false, null, null);   // resume
-            game_manager.ResumeTimer();
+
         }
 
         public void PauseTimer()
         {
-            game_manager.SendMessageUpdate(null, true, null, null);   // pause
-            game_manager.PauseTimer();
+
         }
 
-
-        public void SetBlocks(bool hide_blocks, int layer)
+        public void SetBlocks(int layer)
         {
-            game_manager.SendMessageUpdate(null, null, hide_blocks, null);
-            game_manager.SetLayerOfBlocks(layer);
+            game_manager.SetBlocksLayer(layer);
         }
 
-        public void SetShelfLight()
+        public void SetShelfLight(bool shelf_light)
         {
-            game_manager.SendMessageUpdate(null, null, null, true);
-            game_manager.SetShelfLight();
+            if (shelfLightController != null) 
+                shelfLightController.setShelfLight(shelf_light);
         }
     }
 
@@ -93,6 +88,7 @@ namespace Ubiq.Samples
         bool avatarHidden = false;
         bool pauseTimer = false;
         bool hideBlocks = false;
+        bool shelfLight = false;
 
         public override void OnInspectorGUI()
         {
@@ -119,13 +115,13 @@ namespace Ubiq.Samples
                 if (hideBlocks) // show blocks 
                 {
                     hideBlocks = !hideBlocks;
-                    t.SetBlocks(hideBlocks, 0);
+                    t.SetBlocks(0);
                     Debug.Log("Show Blocks!");
                 }
                 else
                 {
                     hideBlocks = !hideBlocks;
-                    t.SetBlocks(hideBlocks, 8);
+                    t.SetBlocks(8);
                     Debug.Log("Hide Blocks");
                 }
             }
@@ -162,10 +158,20 @@ namespace Ubiq.Samples
                 t.ShowPoster("SetB");
             }
 
-            if (GUILayout.Button("Shelf Light On"))
+            if (GUILayout.Button(shelfLight == false ? "Shelf On" : "Shelf Off"))
             {
-                t.SetShelfLight();
-                Debug.Log("Shelf Light On!");
+                if (shelfLight) // show blocks 
+                {
+                    shelfLight = !shelfLight;
+                    t.SetShelfLight(shelfLight);
+                    Debug.Log("Switch-off Shelf Light!");
+                }
+                else
+                {
+                    shelfLight = !shelfLight;
+                    t.SetShelfLight(shelfLight);
+                    Debug.Log("Switch On Shelf Light");
+                }
             }
         }
     }
