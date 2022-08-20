@@ -148,6 +148,7 @@ namespace Ubiq.Samples
                 }
             }
 
+
             if (GUILayout.Button("Show clue A"))
             {
                 t.ShowPoster("SetA");
@@ -156,6 +157,26 @@ namespace Ubiq.Samples
             if (GUILayout.Button("Show clue B"))
             {
                 t.ShowPoster("SetB");
+            }
+
+            if (GUILayout.Button("Show clue A"))
+            {
+                t.ShowPoster("SetA");
+            }
+
+            if (GUILayout.Button("Show clue B"))
+            {
+                t.ShowPoster("SetB");
+            }
+
+            if (GUILayout.Button("Show clue A Text"))
+            {
+                t.ShowPoster("SetAText");
+            }
+
+            if (GUILayout.Button("Show clue B Text"))
+            {
+                t.ShowPoster("SetBText");
             }
 
             if (GUILayout.Button(shelfLight == false ? "Shelf On" : "Shelf Off"))
