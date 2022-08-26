@@ -21,6 +21,7 @@ namespace Ubiq.Samples
         public SocialMenu socialMenu;
         public PosterController posterController;
         public ShelfLightController shelfLightController;
+        public ShowWorldController showWorldController;
         private GameManager game_manager;
 
         // Start is called before the first frame update
@@ -78,6 +79,12 @@ namespace Ubiq.Samples
             if (shelfLightController != null)
                 shelfLightController.setShelfLight(shelf_light);
         }
+
+        public void SetShowWorld(bool show_world)
+        {
+            if (showWorldController != null)
+                showWorldController.setShowWorld(show_world);
+        }
     }
 
 #if UNITY_EDITOR
@@ -89,6 +96,7 @@ namespace Ubiq.Samples
         bool pauseTimer = false;
         bool hideBlocks = false;
         bool shelfLight = false;
+        bool showWorld = false;
 
         public override void OnInspectorGUI()
         {
@@ -126,7 +134,7 @@ namespace Ubiq.Samples
                 }
             }
 
-            if (GUILayout.Button("Start/Reset Scenario"))
+            /*if (GUILayout.Button("Start/Reset Scenario"))
             {
                 t.ResetTimer();
                 Debug.Log("Start Scenaiorio");
@@ -146,17 +154,11 @@ namespace Ubiq.Samples
                     t.PauseTimer();
                     Debug.Log("Pause Timer");
                 }
-            }
+            }*/
 
-
-            if (GUILayout.Button("Show clue A"))
+            if (GUILayout.Button("Show clue 0"))
             {
-                t.ShowPoster("SetA");
-            }
-
-            if (GUILayout.Button("Show clue B"))
-            {
-                t.ShowPoster("SetB");
+                t.ShowPoster("Set0");
             }
 
             if (GUILayout.Button("Show clue A"))
@@ -192,6 +194,20 @@ namespace Ubiq.Samples
                     shelfLight = !shelfLight;
                     t.SetShelfLight(shelfLight);
                     Debug.Log("Switch On Shelf Light");
+                }
+            }
+
+            if (GUILayout.Button(showWorld == false ? "Show World" : "Hide World"))
+            {
+                if (showWorld) // show blocks 
+                {
+                    showWorld = !showWorld;
+                    t.SetShowWorld(showWorld);
+                }
+                else
+                {
+                    showWorld = !showWorld;
+                    t.SetShowWorld(showWorld);
                 }
             }
         }

@@ -1195,8 +1195,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointlight: {fileID: 254502818}
-  max_intensity: 1
-  delta_light: 0.02
+  max_intensity: 2
+  delta_light: 0.1
 --- !u!108 &254502818
 Light:
   m_ObjectHideFlags: 0
@@ -4540,6 +4540,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+      propertyPath: _trackingOriginType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
       propertyPath: isInsightPassthroughEnabled
       value: 1
       objectReference: {fileID: 0}
@@ -4704,7 +4708,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 840160744}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 555725d48e9051a4bb6b8d45178c2fdd, type: 3}
   m_Name: 
@@ -4749,10 +4753,22 @@ MonoBehaviour:
   colorMapEditorContrast: 0
   colorMapEditorBrightness: 0
   colorMapEditorPosterize: 0
-  textureOpacity_: 0.5
+  textureOpacity_: 1
   edgeRenderingEnabled_: 0
   edgeColor_: {r: 1, g: 1, b: 1, a: 1}
   colorMapType: 0
+--- !u!114 &840160753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840160744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a0c455b3e65fbe4db7d4b8f6f4ed32f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &844358343 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8244007466223002167, guid: dca3298a254629246b59cabba33566e4,
@@ -4949,6 +4965,7 @@ MonoBehaviour:
   socialMenu: {fileID: 1879299250}
   posterController: {fileID: 387915664}
   shelfLightController: {fileID: 2137141999}
+  showWorldController: {fileID: 840160753}
 --- !u!4 &905087622
 Transform:
   m_ObjectHideFlags: 0
@@ -5460,12 +5477,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1019705748}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!20 &1029691564 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 1206544754330353990, guid: 33cb6d2a29abed346b39b957a9e24d34,
-    type: 3}
-  m_PrefabInstance: {fileID: 1206757983}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1072716733
 GameObject:
   m_ObjectHideFlags: 0
@@ -5961,7 +5972,12 @@ PrefabInstance:
     - target: {fileID: 1983798968, guid: 33cb6d2a29abed346b39b957a9e24d34, type: 3}
       propertyPath: headCamera
       value: 
-      objectReference: {fileID: 1029691564}
+      objectReference: {fileID: 840160749}
+    - target: {fileID: 1153991049566510926, guid: 33cb6d2a29abed346b39b957a9e24d34,
+        type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 840160749}
     - target: {fileID: 1206544753365771220, guid: 33cb6d2a29abed346b39b957a9e24d34,
         type: 3}
       propertyPath: m_RootOrder
@@ -6036,7 +6052,17 @@ PrefabInstance:
         type: 3}
       propertyPath: headCamera
       value: 
-      objectReference: {fileID: 1029691564}
+      objectReference: {fileID: 840160749}
+    - target: {fileID: 1206544753847649309, guid: 33cb6d2a29abed346b39b957a9e24d34,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.3336
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206544753847649309, guid: 33cb6d2a29abed346b39b957a9e24d34,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1206544753847649309, guid: 33cb6d2a29abed346b39b957a9e24d34,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6066,6 +6092,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI Cursor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1972680466885584242, guid: 33cb6d2a29abed346b39b957a9e24d34,
+        type: 3}
+      propertyPath: m_CameraYOffset
+      value: 1.3336
       objectReference: {fileID: 0}
     - target: {fileID: 3309388531009979750, guid: 33cb6d2a29abed346b39b957a9e24d34,
         type: 3}
@@ -10801,7 +10832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointlight: {fileID: 2137141996}
   max_intensity: 3
-  delta_light: 0.1
+  delta_light: 0.3
 --- !u!114 &2137141999
 MonoBehaviour:
   m_ObjectHideFlags: 0
