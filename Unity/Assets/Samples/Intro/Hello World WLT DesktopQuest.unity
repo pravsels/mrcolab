@@ -1195,7 +1195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointlight: {fileID: 254502818}
-  max_intensity: 2
+  max_intensity: 3
   delta_light: 0.1
 --- !u!108 &254502818
 Light:
@@ -10832,7 +10832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointlight: {fileID: 2137141996}
   max_intensity: 3
-  delta_light: 0.3
+  delta_light: 0.2
 --- !u!114 &2137141999
 MonoBehaviour:
   m_ObjectHideFlags: 0
