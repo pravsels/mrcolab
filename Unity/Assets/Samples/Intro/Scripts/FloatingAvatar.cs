@@ -62,7 +62,7 @@ namespace Ubiq.Samples
             is_abnormal_size = false;
             time_spent_abnormal = abnormal_time_;
 
-            if (listener == null && SystemInfo.deviceModel.ToLower().Contains("quest"))
+            if (listener == null)
             {
                 try
                 {
@@ -107,11 +107,17 @@ namespace Ubiq.Samples
 
             if (context.Request.Url.LocalPath == "/minimize")
             {
-                change_scale_min = true; 
+                change_scale_min = true;
+                change_size_normal = false; 
             } else if (context.Request.Url.LocalPath == "/maximize")
             {
-                change_scale_max = true; 
+                change_scale_max = true;
+                change_size_normal = false; 
             }
+
+            Debug.Log("change scale min : " + change_scale_min);
+            Debug.Log("change scale max : " + change_scale_max);
+            
             context.Response.Close();
         }
 
@@ -170,38 +176,11 @@ namespace Ubiq.Samples
             rightHandRenderer.material = headRenderer.material;
         }
 
-        private void Update()
-        {
-            UpdateTorso();
-
-            UpdateVisibility();
-
-            if (change_scale_min || change_scale_max)
-            {
-                int multiplier = change_scale_max == true ? 1 : -1;
-
-                head.transform.localScale += multiplier*scaleChange;
-                torso.transform.localScale += multiplier*scaleChange;
-                leftHand.transform.localScale += multiplier*scaleChange;
-                rightHand.transform.localScale += multiplier*scaleChange;
-                player.transform.localScale += multiplier*scaleChange;
-            }
-
-            if (head.transform.localScale.y < avatar_min_size)
-            {
-                change_scale_min = false;
-            }
-            if (head.transform.localScale.y > avatar_max_size)
-            {
-                change_scale_max = false;
-            }
-        }
-
-        private void FixedUpdate()
+        private void countDownIfAbnormal()
         {
             if (change_scale_max || change_scale_min)
             {
-                is_abnormal_size = true; 
+                is_abnormal_size = true;
             }
 
             if (is_abnormal_size)
@@ -215,7 +194,22 @@ namespace Ubiq.Samples
                     change_size_normal = true;
                 }
             }
+        }
 
+        private void checkChangeScale()
+        {
+            if (change_scale_min && (head.transform.localScale.y < avatar_min_size))
+            {
+                change_scale_min = false;
+            }
+            if (change_scale_max && (head.transform.localScale.y > avatar_max_size))
+            {
+                change_scale_max = false;
+            }
+        }
+
+        private void changeToNormalSize()
+        {
             if (change_size_normal)
             {
                 float size_diff = 1f - head.transform.localScale.y;
@@ -231,9 +225,35 @@ namespace Ubiq.Samples
             {
                 if (Math.Abs(1f - head.transform.localScale.y) <= 0.02f)
                 {
-                    change_size_normal = false; 
+                    change_size_normal = false;
                 }
             }
+        }
+
+        private void Update()
+        {
+            UpdateTorso();
+
+            UpdateVisibility();
+
+            // change size if either flags set
+            if (change_scale_min || change_scale_max)
+            {
+                int multiplier = change_scale_max == true ? 1 : -1;
+
+                head.transform.localScale += multiplier*scaleChange;
+                torso.transform.localScale += multiplier*scaleChange;
+                leftHand.transform.localScale += multiplier*scaleChange;
+                rightHand.transform.localScale += multiplier*scaleChange;
+                player.transform.localScale += multiplier*scaleChange;
+            }
+
+            // check if changing scale flags need to be unset 
+            checkChangeScale();
+            // count time spent abnormal and update normality flag when the time is up 
+            countDownIfAbnormal();
+            // if change to normal flag is set, then scale up or down back to normality 
+            changeToNormalSize();
         }
 
         private void UpdateVisibility()
