@@ -63,10 +63,13 @@ public class UV_Light : MonoBehaviour, IGraspable
                 if (response.status == "ON")
                 {
                     is_switched = true;
+                    this.gameObject.GetComponentInChildren<GlowingLight>().pointlight.intensity = 0f;
+                    this.gameObject.GetComponentInChildren<GlowingLight>().enabled = false;
                 }
                 else
                 {
                     is_switched = false;
+                    this.gameObject.GetComponentInChildren<GlowingLight>().enabled = true;
                 }
             }
         }

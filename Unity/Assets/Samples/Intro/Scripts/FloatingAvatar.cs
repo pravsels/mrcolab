@@ -62,7 +62,7 @@ namespace Ubiq.Samples
             is_abnormal_size = false;
             time_spent_abnormal = abnormal_time_;
 
-            if (listener == null)
+            if (listener == null && SystemInfo.deviceModel.ToLower().Contains("quest"))
             {
                 try
                 {
